@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Power Tools Explorer | Next-Gen AI Hub</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      --card-bg-dark: rgba(24, 27, 36, 0.75);
+      --card-border-dark: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      font-family: var(--font-main);
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
+                  var(--bs-body-bg);
+      background-attachment: fixed;
+    }
+
+    /* Hero Header */
+    .hero-banner {
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.12) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-border-dark);
+      padding: 2.5rem 0 1.5rem;
+    }
+
+    .gradient-text {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      font-weight: 800;
+    }
+
+    /* Tab Styling */
+    .nav-pills-custom {
+      gap: 0.4rem;
+      border-bottom: 1px solid var(--card-border-dark);
+      padding-bottom: 0.75rem;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      scrollbar-width: thin;
+    }
+
+    .nav-pills-custom::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .nav-pills-custom::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .nav-pills-custom .nav-link {
+      color: var(--bs-secondary-color);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 50rem;
+      padding: 0.55rem 1.15rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .nav-pills-custom .nav-link:hover {
+      color: var(--bs-body-color);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-pills-custom .nav-link.active {
+      background: var(--primary-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      border-color: transparent;
+    }
+
+    /* Cards & Containers */
+    .glass-card {
+      background: var(--card-bg-dark);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border-dark);
+      border-radius: 1.25rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Embedded YouTube Video Container */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Single Paragraph Description Box */
+    .paragraph-callout {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%);
+      border-left: 4px solid #6366f1;
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      line-height: 1.75;
+      font-size: 1.05rem;
+      color: var(--bs-body-color);
+    }
+
+    /* Badges */
+    .category-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50rem;
+    }
+
+    /* Feature Checkmarks */
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .feature-item i {
+      color: #10b981;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .benefit-item i {
+      color: #38bdf8;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Search & Filter Bar */
+    .search-box {
+      border-radius: 50rem;
+      padding: 0.65rem 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border-dark);
+      color: var(--bs-body-color);
+    }
+
+    .search-box:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Code Block styling */
+    pre code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Hero Header -->
+  <header class="hero-banner">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+        <div>
+          <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 mb-2">
+            <i class="bi bi-cpu-fill me-1"></i> Cutting-Edge AI Ecosystem 2026
+          </span>
+          <h1 class="h2 mb-1 fw-bold">
+            <span class="gradient-text">AI Power Tools Directory</span> & Video Hub
+          </h1>
+          <p class="text-secondary mb-0 small">
+            In-depth analysis of 9 breakthrough AI platforms with single-paragraph operational overviews and embedded YouTube video guides.
+          </p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button id="themeToggle" class="btn btn-sm btn-outline-secondary rounded-pill px-3" title="Toggle Light/Dark Theme">
+            <i class="bi bi-sun-fill" id="themeIcon"></i> <span id="themeText" class="ms-1 d-none d-sm-inline">Light</span>
+          </button>
+          <a href="/api/tools" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+            <i class="bi bi-braces me-1"></i> REST API
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <ul class="nav nav-pills nav-pills-custom" id="toolTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tab-overview" data-bs-toggle="pill" data-bs-target="#content-overview" type="button" role="tab">
+            <i class="bi bi-grid-fill"></i> All Tools (9)
+          </button>
+        </li>
+        <!-- Individual Tool Tabs injected by JS -->
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-notebooklm" data-bs-toggle="pill" data-bs-target="#content-notebooklm" type="button" role="tab">
+            <i class="bi bi-journal-bookmark-fill"></i> NotebookLM
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-stitch" data-bs-toggle="pill" data-bs-target="#content-stitch" type="button" role="tab">
+            <i class="bi bi-palette-fill"></i> Stitch
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-aistudio" data-bs-toggle="pill" data-bs-target="#content-aistudio" type="button" role="tab">
+            <i class="bi bi-terminal-fill"></i> AI Studio
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-wisprflow" data-bs-toggle="pill" data-bs-target="#content-wisprflow" type="button" role="tab">
+            <i class="bi bi-mic-fill"></i> Wispr Flow
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-claude" data-bs-toggle="pill" data-bs-target="#content-claude" type="button" role="tab">
+            <i class="bi bi-chat-square-quote-fill"></i> Claude AI
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-julius" data-bs-toggle="pill" data-bs-target="#content-julius" type="button" role="tab">
+            <i class="bi bi-graph-up-arrow"></i> Julius AI
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-higgsfield" data-bs-toggle="pill" data-bs-target="#content-higgsfield" type="button" role="tab">
+            <i class="bi bi-camera-reels-fill"></i> Higgsfield AI
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-claude-skills" data-bs-toggle="pill" data-bs-target="#content-claude-skills" type="button" role="tab">
+            <i class="bi bi-puzzle-fill"></i> Claude Skills
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-elevenlabs" data-bs-toggle="pill" data-bs-target="#content-elevenlabs" type="button" role="tab">
+            <i class="bi bi-soundwave"></i> ElevenLabs
+          </button>
+        </li>
+        <!-- Extra Utility Tabs -->
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-video-theater" data-bs-toggle="pill" data-bs-target="#content-video-theater" type="button" role="tab">
+            <i class="bi bi-play-btn-fill"></i> Video Gallery
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-matrix" data-bs-toggle="pill" data-bs-target="#content-matrix" type="button" role="tab">
+            <i class="bi bi-table"></i> Comparison Matrix
+          </button>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container py-4">
+    <div class="tab-content" id="toolTabsContent">
+
+      <!-- ================= TAB 1: OVERVIEW DASHBOARD ================= -->
+      <div class="tab-pane fade show active" id="content-overview" role="tabpanel">
+        <div class="row align-items-center mb-4 g-3">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0">
+                <i class="bi bi-search text-secondary"></i>
+              </span>
+              <input type="text" id="overviewSearch" class="form-control search-box border-start-0" placeholder="Search by tool name, purpose, or capability...">
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="btn-group" role="group" id="categoryFilter">
+              <button type="button" class="btn btn-sm btn-outline-secondary active" data-filter="all">All</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-filter="Google">Google Tools</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-filter="Anthropic">Claude / Anthropic</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-filter="Audio">Voice / Audio</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-filter="Visual">Design / Video</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-filter="Data">Data</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid of Tool Cards -->
+        <div class="row g-4" id="toolCardsGrid">
+          <!-- Dynamically populated by JS or fallback -->
+        </div>
+      </div>
+
+      <!-- ================= INDIVIDUAL TOOL TABS (Generated / Handcrafted) ================= -->
+      
+      <!-- 1. Google NotebookLM Tab -->
+      <div class="tab-pane fade" id="content-notebooklm" role="tabpanel">
+        <!-- Rendered by JS or statically structured -->
+      </div>
+
+      <!-- 2. Google Stitch Tab -->
+      <div class="tab-pane fade" id="content-stitch" role="tabpanel"></div>
+
+      <!-- 3. Google AI Studio Tab -->
+      <div class="tab-pane fade" id="content-aistudio" role="tabpanel"></div>
+
+      <!-- 4. Wispr Flow Tab -->
+      <div class="tab-pane fade" id="content-wisprflow" role="tabpanel"></div>
+
+      <!-- 5. Claude AI Tab -->
+      <div class="tab-pane fade" id="content-claude" role="tabpanel"></div>
+
+      <!-- 6. Julius AI Tab -->
+      <div class="tab-pane fade" id="content-julius" role="tabpanel"></div>
+
+      <!-- 7. Higgsfield AI Tab -->
+      <div class="tab-pane fade" id="content-higgsfield" role="tabpanel"></div>
+
+      <!-- 8. Claude Skills Tab -->
+      <div class="tab-pane fade" id="content-claude-skills" role="tabpanel"></div>
+
+      <!-- 9. ElevenLabs Tab -->
+      <div class="tab-pane fade" id="content-elevenlabs" role="tabpanel"></div>
+
+      <!-- ================= TAB: ALL VIDEOS GALLERY ================= -->
+      <div class="tab-pane fade" id="content-video-theater" role="tabpanel">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h3 class="fw-bold mb-1"><i class="bi bi-play-circle-fill text-danger me-2"></i>Video Showcase Gallery</h3>
+            <p class="text-secondary small mb-0">Direct embedded tutorial videos for all 9 platforms. Watch and learn side-by-side.</p>
+          </div>
+        </div>
+        <div class="row g-4" id="videoGalleryGrid">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- ================= TAB: COMPARISON MATRIX ================= -->
+      <div class="tab-pane fade" id="content-matrix" role="tabpanel">
+        <div class="glass-card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h3 class="fw-bold mb-1"><i class="bi bi-table text-primary me-2"></i>Capabilities & Comparison Matrix</h3>
+              <p class="text-secondary small mb-0">Side-by-side breakdown of features, target users, pricing models, and key strengths.</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th style="min-width: 170px;">Tool Name</th>
+                  <th style="min-width: 160px;">Primary Domain</th>
+                  <th style="min-width: 130px;">Developer</th>
+                  <th style="min-width: 150px;">Pricing Model</th>
+                  <th style="min-width: 250px;">Key Superpower</th>
+                  <th style="min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="matrixTableBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-4 border-top border-secondary border-opacity-10 mt-5">
+    <div class="container text-center text-secondary small">
+      <p class="mb-1">Python ASP.NET-Inspired Architecture | Zero External Dependencies HTTP Server</p>
+      <p class="mb-0">Built for high-performance AI tooling discovery, multi-tab examination & video embedding.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Application Logic -->
+  <script>
+    // Global data loaded from python endpoint or embedded
+    let toolsData = [];
+
+    async function loadTools() {
+      try {
+        const response = await fetch('/api/tools');
+        toolsData = await response.json();
+      } catch (e) {
+        console.warn('API fetch failed, reading embedded data or retrying', e);
+      }
+      renderOverview(toolsData);
+      renderIndividualTabs(toolsData);
+      renderVideoGallery(toolsData);
+      renderMatrix(toolsData);
+    }
+
+    // Render Overview Grid
+    function renderOverview(data) {
+      const container = document.getElementById('toolCardsGrid');
+      container.innerHTML = data.map(tool => `
+        <div class="col-md-6 col-lg-4 tool-card-item" data-id="${tool.id}" data-category="${tool.category}" data-developer="${tool.developer}">
+          <div class="glass-card h-100 p-4 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <span class="category-badge" style="background-color: ${tool.badge_color}22; color: ${tool.badge_color}; border: 1px solid ${tool.badge_color}44;">
+                ${tool.category}
+              </span>
+              <span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary border-opacity-25 small">
+                ${tool.pricing}
+              </span>
+            </div>
+            
+            <h4 class="fw-bold mb-1">${tool.name}</h4>
+            <p class="text-secondary small mb-3">${tool.tagline}</p>
+            
+            <div class="mb-3">
+              <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/${tool.youtube_id}" title="${tool.name} Video" loading="lazy" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <p class="small text-body-secondary mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6;">
+              ${tool.description}
+            </p>
+
+            <div class="d-flex gap-2 pt-2 border-top border-secondary border-opacity-10">
+              <button class="btn btn-sm btn-primary flex-fill rounded-pill" onclick="switchToTab('tab-${tool.id}')">
+                <i class="bi bi-arrow-right-circle me-1"></i> Full Details
+              </button>
+              <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary rounded-pill" title="Visit Official Site">
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Individual Dedicated Tabs
+    function renderIndividualTabs(data) {
+      data.forEach(tool => {
+        const pane = document.getElementById(`content-${tool.id}`);
+        if (!pane) return;
+        
+        pane.innerHTML = `
+          <div class="glass-card p-4 p-lg-5 mb-4">
+            <!-- Header -->
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <span class="category-badge" style="background-color: ${tool.badge_color}22; color: ${tool.badge_color}; border: 1px solid ${tool.badge_color}44;">
+                    ${tool.category}
+                  </span>
+                  <span class="badge bg-dark-subtle text-secondary border border-secondary border-opacity-25">
+                    ${tool.developer}
+                  </span>
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                    ${tool.pricing}
+                  </span>
+                </div>
+                <h2 class="display-6 fw-bold mb-1">${tool.name}</h2>
+                <p class="text-secondary fs-5 mb-0">${tool.tagline}</p>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary rounded-pill px-4">
+                  <i class="bi bi-box-arrow-up-right me-2"></i>Open Official Website
+                </a>
+                <button class="btn btn-outline-secondary rounded-pill px-3" onclick="copyDescription('${tool.id}')" title="Copy One-Paragraph Description">
+                  <i class="bi bi-clipboard me-1"></i> Copy Details
+                </button>
+              </div>
+            </div>
+
+            <!-- Single Paragraph Operational Description -->
+            <div class="mb-4">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-info-circle-fill text-primary"></i>
+                <h5 class="fw-bold mb-0">How It Works & How It Can Help You (Summary)</h5>
+              </div>
+              <div class="paragraph-callout" id="desc-${tool.id}">
+                ${tool.description}
+              </div>
+            </div>
+
+            <!-- Video & Features Grid -->
+            <div class="row g-4 mb-4">
+              <!-- Video Column -->
+              <div class="col-lg-7">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="fw-bold mb-0"><i class="bi bi-youtube text-danger me-2"></i>Embedded Video Walkthrough</h6>
+                  <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 small">
+                    YouTube Embed
+                  </span>
+                </div>
+                <div class="video-wrapper mb-2">
+                  <iframe src="https://www.youtube.com/embed/${tool.youtube_id}" title="${tool.youtube_title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p class="text-secondary small mb-0">
+                  <i class="bi bi-play-fill"></i> <strong>Tutorial:</strong> ${tool.youtube_title}
+                </p>
+              </div>
+
+              <!-- Features Column -->
+              <div class="col-lg-5">
+                <h6 class="fw-bold mb-3"><i class="bi bi-stars text-warning me-2"></i>Key Platform Features</h6>
+                <div class="mb-4">
+                  ${tool.key_features.map(f => `
+                    <div class="feature-item">
+                      <i class="bi bi-check-circle-fill"></i>
+                      <span>${f}</span>
+                    </div>
+                  `).join('')}
+                </div>
+
+                <h6 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-info me-2"></i>Practical Benefits For You</h6>
+                <div>
+                  ${tool.how_it_helps.map(b => `
+                    <div class="benefit-item">
+                      <i class="bi bi-shield-check"></i>
+                      <span>${b}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Navigation Footer -->
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-10">
+              <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="switchToTab('tab-overview')">
+                <i class="bi bi-arrow-left me-1"></i> Back to Overview
+              </button>
+              <div class="text-secondary small">
+                URL: <code>${tool.url}</code>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Render Video Gallery
+    function renderVideoGallery(data) {
+      const container = document.getElementById('videoGalleryGrid');
+      container.innerHTML = data.map(tool => `
+        <div class="col-md-6 col-lg-4">
+          <div class="glass-card p-3 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-primary bg-opacity-25 text-primary small">${tool.name}</span>
+              <a href="https://www.youtube.com/watch?v=${tool.youtube_id}" target="_blank" class="text-secondary small text-decoration-none">
+                <i class="bi bi-box-arrow-up-right me-1"></i>Watch on YT
+              </a>
+            </div>
+            <div class="video-wrapper mb-3">
+              <iframe src="https://www.youtube.com/embed/${tool.youtube_id}" title="${tool.youtube_title}" loading="lazy" allowfullscreen></iframe>
+            </div>
+            <h6 class="fw-bold small mb-2 flex-grow-1">${tool.youtube_title}</h6>
+            <button class="btn btn-sm btn-outline-primary rounded-pill w-100" onclick="switchToTab('tab-${tool.id}')">
+              View Tool Details
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Comparison Matrix
+    function renderMatrix(data) {
+      const tbody = document.getElementById('matrixTableBody');
+      tbody.innerHTML = data.map(tool => `
+        <tr>
+          <td>
+            <div class="fw-bold">${tool.name}</div>
+            <div class="text-secondary small">${tool.url.replace('https://', '').replace('/', '')}</div>
+          </td>
+          <td>
+            <span class="badge" style="background-color: ${tool.badge_color}22; color: ${tool.badge_color}; border: 1px solid ${tool.badge_color}44;">
+              ${tool.category}
+            </span>
+          </td>
+          <td><span class="badge bg-secondary bg-opacity-25 text-body small">${tool.developer}</span></td>
+          <td><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">${tool.pricing}</span></td>
+          <td class="small text-secondary">${tool.key_features[0]}</td>
+          <td>
+            <button class="btn btn-xs btn-outline-primary rounded-pill py-1 px-3" onclick="switchToTab('tab-${tool.id}')">
+              Explore
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Tab Switch Helper
+    function switchToTab(tabId) {
+      const tabElement = document.getElementById(tabId);
+      if (tabElement) {
+        const tab = new bootstrap.Tab(tabElement);
+        tab.show();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Copy text to clipboard
+    function copyDescription(toolId) {
+      const el = document.getElementById(`desc-${toolId}`);
+      if (el) {
+        navigator.clipboard.writeText(el.innerText.trim());
+        alert('One-paragraph description copied to clipboard!');
+      }
+    }
+
+    // Search filter
+    document.getElementById('overviewSearch').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('.tool-card-item').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+
+    // Category filter buttons
+    document.querySelectorAll('#categoryFilter button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#categoryFilter button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.getAttribute('data-filter');
+        
+        document.querySelectorAll('.tool-card-item').forEach(card => {
+          if (filter === 'all') {
+            card.style.display = '';
+            return;
+          }
+          const cat = card.getAttribute('data-category').toLowerCase();
+          const dev = card.getAttribute('data-developer').toLowerCase();
+          let match = false;
+          if (filter === 'Google' && dev.includes('google')) match = true;
+          if (filter === 'Anthropic' && (dev.includes('anthropic') || cat.includes('claude'))) match = true;
+          if (filter === 'Audio' && (cat.includes('voice') || cat.includes('audio'))) match = true;
+          if (filter === 'Visual' && (cat.includes('ui') || cat.includes('video') || cat.includes('design'))) match = true;
+          if (filter === 'Data' && (cat.includes('data') || cat.includes('science'))) match = true;
+          card.style.display = match ? '' : 'none';
+        });
+      });
+    });
+
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', newTheme);
+      themeIcon.className = newTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+      themeText.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
+    });
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', loadTools);
+  </script>
+</body>
+</html>
